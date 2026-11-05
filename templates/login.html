@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login — NHS Blood Bank Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-white to-rose-50/60">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md px-4">
+        <div class="flex justify-center">
+            <div class="h-14 w-14 rounded-2xl bg-gradient-to-br from-rose-600 to-red-700 flex items-center justify-center shadow-lg shadow-rose-600/25">
+                <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+                </svg>
+            </div>
+        </div>
+        <h1 class="mt-5 text-center text-2xl font-bold tracking-tight text-slate-900">
+            Blood Bank Management System
+        </h1>
+        <p class="mt-1.5 text-center text-sm text-slate-600">
+            Clinical Inventory, Donor Registry &amp; Algorithmic Distribution Portal
+        </p>
+    </div>
+
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4">
+        <div class="bg-white py-8 px-6 shadow-xl shadow-slate-200/70 rounded-2xl border border-slate-200/80 sm:px-10">
+            <div class="mb-6 flex items-center justify-between border-b border-slate-100 pb-4">
+                <div>
+                    <h2 class="text-base font-semibold text-slate-800">Administrator Sign In</h2>
+                    <p class="text-xs text-slate-500">Protected by SHA-256 hash verification</p>
+                </div>
+                <span class="inline-flex items-center gap-1 rounded-full bg-rose-50 px-2.5 py-1 text-xs font-medium text-rose-700 border border-rose-200/60">
+                    <span class="h-1.5 w-1.5 rounded-full bg-rose-600"></span>
+                    SHA-256 Auth
+                </span>
+            </div>
+
+            <!-- Alert Banner -->
+            <div id="login-alert" class="{% if not error %}hidden{% endif %} mb-5 rounded-xl bg-rose-50 border border-rose-200 p-3.5 text-sm text-rose-800 flex items-start gap-2.5" role="alert">
+                <svg class="h-5 w-5 text-rose-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+                <span id="login-alert-text">{{ error or '' }}</span>
+            </div>
+
+            <form id="login-form" method="POST" action="/login" class="space-y-5">
+                <div>
+                    <label for="username" class="block text-sm font-medium text-slate-700">Username</label>
+                    <div class="mt-1.5 relative">
+                        <input id="username" name="username" type="text" required autocomplete="username"
+                               placeholder="admin"
+                               class="block w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-slate-900 placeholder-slate-400 shadow-sm focus:border-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-600/20 sm:text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between">
+                        <label for="password" class="block text-sm font-medium text-slate-700">Password</label>
+                        <button type="button" id="toggle-password" class="text-xs font-medium text-rose-600 hover:text-rose-700">
+                            Show password
+                        </button>
+                    </div>
+                    <div class="mt-1.5 relative">
+                        <input id="password" name="password" type="password" required autocomplete="current-password"
+                               placeholder="••••••••••"
+                               class="block w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-slate-900 placeholder-slate-400 shadow-sm focus:border-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-600/20 sm:text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" id="login-submit-btn"
+                            class="flex w-full justify-center items-center gap-2 rounded-xl bg-rose-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-rose-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600 transition-colors">
+                        <span>Access Clinical Dashboard</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Quick Demo Fill Box -->
+            <div class="mt-6 pt-5 border-t border-slate-100">
+                <div class="rounded-xl bg-slate-50 border border-slate-200/80 p-3.5 flex items-center justify-between gap-3">
+                    <div class="text-xs text-slate-600 space-y-0.5">
+                        <div class="font-semibold text-slate-800">Default NEA Admin Credentials</div>
+                        <div>Username: <code class="px-1.5 py-0.5 rounded bg-white border border-slate-200 text-rose-700 font-mono">admin</code></div>
+                        <div>Password: <code class="px-1.5 py-0.5 rounded bg-white border border-slate-200 text-rose-700 font-mono">Blood bank</code></div>
+                    </div>
+                    <button type="button" id="fill-demo-btn"
+                            class="shrink-0 rounded-lg bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm border border-slate-300 hover:bg-slate-100 transition">
+                        Auto-Fill
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const pwdInput = document.getElementById('password');
+        const toggleBtn = document.getElementById('toggle-password');
+        const fillDemoBtn = document.getElementById('fill-demo-btn');
+        const loginForm = document.getElementById('login-form');
+        const alertBox = document.getElementById('login-alert');
+        const alertText = document.getElementById('login-alert-text');
+
+        toggleBtn.addEventListener('click', () => {
+            const isPwd = pwdInput.type === 'password';
+            pwdInput.type = isPwd ? 'text' : 'password';
+            toggleBtn.textContent = isPwd ? 'Hide password' : 'Show password';
+        });
+
+        fillDemoBtn.addEventListener('click', () => {
+            document.getElementById('username').value = 'admin';
+            pwdInput.value = 'Blood bank';
+            alertBox.classList.add('hidden');
+        });
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            alertBox.classList.add('hidden');
+            const username = document.getElementById('username').value;
+            const password = pwdInput.value;
+
+            try {
+                const res = await fetch('/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json();
+                if (res.ok && data.success) {
+                    window.location.href = data.redirect || '/';
+                } else {
+                    alertText.textContent = data.error || 'Authentication failed.';
+                    alertBox.classList.remove('hidden');
+                }
+            } catch (err) {
+                loginForm.submit();
+            }
+        });
+    </script>
+</body>
+</html>
+
